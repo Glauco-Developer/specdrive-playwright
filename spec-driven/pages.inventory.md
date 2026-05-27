@@ -1,8 +1,8 @@
-# Pages inventory
+# Pages Inventory
 
-Use este arquivo para anotar o que a IA encontrou com **Playwright MCP** antes de gerar os testes.
+Use this file to note what the AI found with **Playwright MCP** before writing tests.
 
-Modelo:
+Template:
 
 ```md
 ## home
@@ -19,16 +19,16 @@ Modelo:
 - ctas:
   - Get started -> /signup/
 - footer:
-  - Privacy Policy
+  - Privacy policy
 - overlays:
   - Accept cookies
 - volatile:
   - blog card titles
-  - counters
+  - animated counters
 ```
 
-Regra simples:
+Rules:
 
-- Anote só o que ajuda a criar specs estáveis
-- Não copie a página inteira
-- Marque conteúdo volátil separadamente
+- Note only what is useful for stable specs
+- Do not copy the full page
+- Mark volatile content separately

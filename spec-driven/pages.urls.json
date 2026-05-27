@@ -1,9 +1,9 @@
 {
-  "baseURL": "https://thewheel.wpenginepowered.com/",
+  "baseURL": "https://example.com/",
   "pages": [
     {
       "id": "home",
-      "name": "Homepage",
+      "name": "Home",
       "path": "/"
     }
   ]

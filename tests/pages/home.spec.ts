@@ -11,29 +11,20 @@ import {
 } from '../helpers/page-spec';
 
 const homePage: PageSpec = {
-  name: 'Homepage',
+  name: 'Home',
   path: '/',
-  title: /The Wheel: Supporting & Representing Charities/,
-  hero: /Ireland.s national association of charities/i,
-  navigation: [
-    'Become a Member',
-    'Get Support',
-    'Our Work',
-    'About Us',
-    'Member Hub',
-    'News and Updates',
-  ],
-  sections: ['How we help', /What we.re working on/i, 'Why join us at The Wheel?'],
-  ctas: [
-    { name: 'Join us today', href: /\/join-us\/?$/ },
-    { name: 'Already a member?', href: /\/login\/?$/ },
-    { name: 'View all news and updates', href: /\/news-and-updates\/?$/ },
-  ],
-  footer: ['Our funders', 'Newsletter sign up', 'Helpful links', 'Privacy policy'],
-  dismissButtons: ['Dismiss notification'],
+  title: /Example Domain/i,
+  hero: /Example Domain/i,
+  navigation: ['Docs', 'Pricing', 'Contact'],
+  sections: ['Features', 'Testimonials', 'FAQ'],
+  ctas: [{ name: 'Get started', href: /\/signup\/?$/ }],
+  footer: ['Privacy policy', 'Terms', 'Contact'],
+  dismissButtons: ['Accept', 'Close'],
 };
 
-test.describe('Homepage @stable', () => {
+test.describe('Home @stable', () => {
+  test.skip(true, 'Replace this placeholder spec with project-specific assertions.');
+
   test.beforeEach(async ({ page }) => {
     await openPage(page, homePage);
   });
@@ -63,14 +54,16 @@ test.describe('Homepage @stable', () => {
   });
 });
 
-test.describe('Homepage @volatile', () => {
+test.describe('Home @volatile', () => {
+  test.skip(true, 'Add volatile checks only after exploring the real page with MCP.');
+
   test.beforeEach(async ({ page }) => {
     await openPage(page, homePage);
   });
 
-  test('shows at least one news article link', async ({ page }) => {
-    const articleLinks = page.locator('a[href*="/news-and-updates/"][href*="-"]');
-    await expect(articleLinks.first()).toBeVisible();
-    expect(await articleLinks.count()).toBeGreaterThanOrEqual(1);
+  test('shows at least one rotating content item', async ({ page }) => {
+    const rotatingItems = page.locator('article, [data-rotating-item]');
+    await expect(rotatingItems.first()).toBeVisible();
+    expect(await rotatingItems.count()).toBeGreaterThanOrEqual(1);
   });
 });

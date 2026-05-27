@@ -1,21 +1,21 @@
 # Spec-driven
 
-Pasta mínima para a IA trabalhar com **Playwright MCP** sem inventar estrutura extra.
+Minimal files for AI-assisted Playwright MCP test creation.
 
-## Ordem de trabalho
+## Expected order
 
-1. Perguntar quais URLs devem entrar
-2. Atualizar `pages.urls.json`
-3. Explorar cada URL com MCP
-4. Criar ou atualizar `tests/pages/*.spec.ts`
+1. Ask which URLs should be covered
+2. Update `pages.urls.json`
+3. Explore each page with Playwright MCP
+4. Create or update `tests/pages/*.spec.ts`
 
-## Arquivos
+## Files
 
-- [ai-init.prompt.md](/home/glauco/.local/share/me/mcp-aula/spec-driven/ai-init.prompt.md): prompt inicial recomendado
-- [pages.urls.json](/home/glauco/.local/share/me/mcp-aula/spec-driven/pages.urls.json): URLs reais do projeto
-- [pages.urls.example.json](/home/glauco/.local/share/me/mcp-aula/spec-driven/pages.urls.example.json): modelo para reaproveitar
-- [pages.inventory.md](/home/glauco/.local/share/me/mcp-aula/spec-driven/pages.inventory.md): anotações da exploração MCP
+- [ai-init.prompt.md](/home/glauco/.local/share/me/mcp-aula/spec-driven/ai-init.prompt.md): recommended startup prompt
+- [pages.urls.json](/home/glauco/.local/share/me/mcp-aula/spec-driven/pages.urls.json): active project URLs
+- [pages.urls.example.json](/home/glauco/.local/share/me/mcp-aula/spec-driven/pages.urls.example.json): reusable example
+- [pages.inventory.md](/home/glauco/.local/share/me/mcp-aula/spec-driven/pages.inventory.md): MCP exploration notes
 
-## Regra principal
+## Main rule
 
-A IA deve sempre perguntar as URLs antes de gerar testes.
+The AI should always ask for the target URLs before generating tests.

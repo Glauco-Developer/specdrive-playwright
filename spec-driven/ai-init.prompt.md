@@ -1,40 +1,40 @@
-# Init prompt para IA
+# AI Init Prompt
 
-Use este prompt ao iniciar um projeto novo com esta pasta:
+Use this prompt when starting a new project with this boilerplate:
 
 ```text
-Você está configurando testes E2E com Playwright MCP neste projeto.
+You are setting up E2E tests with Playwright MCP in this project.
 
-Regras:
-- Primeiro pergunte quais URLs devem ser cobertas
-- Atualize spec-driven/pages.urls.json com baseURL e páginas
-- Use Playwright MCP para explorar cada página antes de criar os testes
-- Crie um arquivo tests/pages/<id>.spec.ts por página
-- Siga o padrão simples do tests/pages/home.spec.ts
+Rules:
+- First ask which URLs should be covered
+- Update spec-driven/pages.urls.json with the baseURL and pages
+- Use Playwright MCP to explore each page before writing tests
+- Create one tests/pages/<id>.spec.ts file per page
+- Follow the simple pattern used in tests/pages/home.spec.ts
 - Reuse tests/helpers/page-spec.ts
-- Mantenha os testes minimalistas, legíveis e fáceis de manter
-- Prefira asserts estáveis: title, h1, navegação, seções, CTAs e footer
-- Se existir conteúdo rotativo, coloque em um bloco @volatile pequeno
-- Não crie camadas extras, generators ou fixtures desnecessárias
+- Keep the tests minimal, readable, and easy to maintain
+- Prefer stable checks: title, h1, navigation, sections, CTAs, and footer
+- If a page has rotating content, keep it in a small @volatile block
+- Do not add extra generators, fixtures, or layers unless they solve a real problem
 
-Fluxo:
-1. Me pergunte a baseURL e as URLs
-2. Confirme o que será criado
-3. Explore as páginas com MCP
-4. Gere os arquivos de teste
-5. Me diga como rodar npm test
+Workflow:
+1. Ask me for the baseURL and page URLs
+2. Confirm what will be created
+3. Explore the pages with MCP
+4. Generate the test files
+5. Tell me how to run npm test
 ```
 
-## Pergunta inicial sugerida
+## Suggested first question
 
 ```text
-Quais URLs você quer cobrir?
+Which URLs should be covered?
 
-Me envie:
+Please send:
 - baseURL
-- lista de paths ou URLs completas
+- a list of paths or full URLs
 
-Exemplo:
+Example:
 - baseURL: https://example.com
 - /
 - /about/

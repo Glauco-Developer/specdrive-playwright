@@ -1,8 +1,8 @@
 # Playwright MCP
 
-Este boilerplate foi pensado para ser usado com **MCP do Playwright no Cursor**.
+This boilerplate is designed to be used with **Playwright MCP in Cursor**.
 
-## Instalação
+## Install
 
 ```bash
 npm ci
@@ -10,34 +10,34 @@ npx playwright install --with-deps chromium
 npx playwright install --with-deps chrome
 ```
 
-## Importante
+## Important
 
-- `chromium` é para `npm test`
-- `chrome` é para o MCP
-- instalar só `chromium` não resolve o MCP
+- `chromium` is for `npm test`
+- `chrome` is for Playwright MCP
+- installing only `chromium` is not enough for MCP
 
-Depois da instalação do `chrome`, reinicie o Cursor.
+Restart Cursor after installing `chrome`.
 
-## Como validar
+## Validate MCP
 
-Peça no chat:
+Ask the AI:
 
 ```text
-Use o Playwright MCP para abrir https://example.com e fazer um snapshot.
+Use Playwright MCP to open https://example.com and take a snapshot.
 ```
 
-Se estiver funcionando, a IA consegue navegar e inspecionar a página antes de criar os testes.
+If MCP is working, the AI can navigate and inspect the page before creating tests.
 
-## Fluxo esperado neste boilerplate
+## Expected workflow
 
-1. Você informa as URLs
-2. A IA atualiza `spec-driven/pages.urls.json`
-3. A IA explora as páginas com MCP
-4. A IA cria `tests/pages/*.spec.ts`
+1. You provide the URLs
+2. The AI updates `spec-driven/pages.urls.json`
+3. The AI explores the pages with MCP
+4. The AI creates `tests/pages/*.spec.ts`
 
-## Erro comum
+## Common error
 
-Se aparecer algo como `chrome is not found`, rode:
+If you see `chrome is not found`, run:
 
 ```bash
 npx playwright install --with-deps chrome

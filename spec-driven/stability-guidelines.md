@@ -1,24 +1,24 @@
-# Stability guidelines
+# Stability Guidelines
 
-Prefira asserts que sobrevivem a mudanças normais do site.
+Prefer assertions that survive normal site updates.
 
-## Bom para `@stable`
+## Good for `@stable`
 
-- título da página
+- page title
 - `h1`
-- links da navegação principal
-- headings de seções
-- CTAs principais
-- itens básicos do footer
+- primary navigation links
+- section headings
+- main CTAs
+- basic footer items
 
-## Evite hardcode em `@stable`
+## Avoid hard-coded `@stable` checks for
 
-- títulos de posts
-- datas
-- números animados
-- textos promocionais
-- banners sazonais
+- post titles
+- dates
+- animated numbers
+- campaign banners
+- seasonal promotional text
 
-## Quando usar `@volatile`
+## When to use `@volatile`
 
-Use um bloco `@volatile` pequeno quando a página tiver conteúdo que muda com frequência, mas ainda vale checar estrutura.
+Use a small `@volatile` block when a page has content that changes often but still deserves a light structural check.

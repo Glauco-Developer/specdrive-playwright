@@ -1,33 +1,34 @@
 # Playwright MCP Boilerplate
 
-Boilerplate minimalista para testes E2E com `@playwright/test` e exploração guiada por **Playwright MCP**.
+Minimal boilerplate for E2E tests with `@playwright/test` and page exploration through **Playwright MCP**.
 
-Use este projeto como pasta-base para qualquer site/tema. A IA deve:
+This repository is meant to be copied into any web project as a starting point. The intended AI workflow is:
 
-1. Perguntar quais URLs você quer cobrir
-2. Atualizar `spec-driven/pages.urls.json`
-3. Explorar cada página com MCP
-4. Criar `tests/pages/*.spec.ts` seguindo o exemplo existente
+1. Ask which URLs should be covered
+2. Update `spec-driven/pages.urls.json`
+3. Explore each page with Playwright MCP
+4. Create or update `tests/pages/*.spec.ts`
 
-## Estrutura
+## Structure
 
 ```text
 tests/
   helpers/
-    page-spec.ts           # helper genérico para suites simples
+    page-spec.ts
   pages/
-    home.spec.ts           # exemplo real e template de referência
+    home.spec.ts
 spec-driven/
-  README.md                # fluxo curto para IA
-  ai-init.prompt.md        # prompt inicial recomendado
-  pages.urls.json          # baseURL + lista de páginas
-  pages.urls.example.json  # exemplo para novos projetos
+  README.md
+  ai-init.prompt.md
+  pages.urls.json
+  pages.urls.example.json
+  pages.inventory.md
 docs/
-  PLAYWRIGHT_MCP.md        # como ativar MCP no Cursor
-playwright.config.ts       # lê baseURL do pages.urls.json
+  PLAYWRIGHT_MCP.md
+playwright.config.ts
 ```
 
-## Instalação
+## Install
 
 ```bash
 npm ci
@@ -35,51 +36,51 @@ npx playwright install --with-deps chromium
 npx playwright install --with-deps chrome
 ```
 
-- `chromium`: usado pelos testes locais e CI
-- `chrome`: usado pelo MCP do Playwright no Cursor
+- `chromium` is used for local runs and CI
+- `chrome` is used by Playwright MCP in Cursor
 
-## Como usar
+## Usage
 
-1. Ajuste `spec-driven/pages.urls.json`
-2. Gere ou edite `tests/pages/*.spec.ts`
-3. Rode:
+1. Update `spec-driven/pages.urls.json`
+2. Generate or edit `tests/pages/*.spec.ts`
+3. Run:
 
 ```bash
 npm test
 ```
 
-Comandos úteis:
+Useful commands:
 
 - `npm run test:stable`
 - `npm run test:ui`
 - `npm run test:headed`
 - `npm run report`
 
-## Exemplo de pedido para a IA
+## Recommended AI prompt
 
-Use o prompt de [spec-driven/ai-init.prompt.md](/home/glauco/.local/share/me/mcp-aula/spec-driven/ai-init.prompt.md).
+Use [spec-driven/ai-init.prompt.md](/home/glauco/.local/share/me/mcp-aula/spec-driven/ai-init.prompt.md).
 
-Versão curta:
+Short version:
 
 ```text
-Quero configurar testes com Playwright MCP neste projeto.
-Primeiro me pergunte quais URLs devo cobrir.
-Depois atualize spec-driven/pages.urls.json, explore as páginas com MCP
-e crie um arquivo tests/pages/<id>.spec.ts para cada URL, seguindo o
-exemplo existente e mantendo tudo simples.
+Set up Playwright MCP tests in this project.
+First ask which URLs should be covered.
+Then update spec-driven/pages.urls.json, explore the pages with MCP,
+and create one tests/pages/<id>.spec.ts file per page.
+Keep the structure minimal and follow the existing example.
 ```
 
-## Como a IA deve criar specs
+## Rules for AI-generated specs
 
-- Um arquivo por página em `tests/pages/`
-- Reusar `tests/helpers/page-spec.ts` para os checks estáveis
-- Adicionar `@volatile` só quando houver conteúdo rotativo
-- Preferir `getByRole`, `getByText` e asserts simples
-- Não criar abstrações extras sem necessidade
+- One file per page in `tests/pages/`
+- Reuse `tests/helpers/page-spec.ts`
+- Use `@volatile` only for frequently changing content
+- Prefer `getByRole`, `getByText`, and simple assertions
+- Avoid extra abstraction unless it removes real repetition
 
-## Próximo passo
+## Next step
 
-Para adicionar páginas novas, me diga:
+To create real specs for a project, provide:
 
 - `baseURL`
-- lista de paths, por exemplo `/`, `/contato/`, `/blog/`
+- a list of paths such as `/`, `/about/`, `/contact/`
