@@ -1,10 +1,16 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { defineConfig, devices } from '@playwright/test';
 
 const isCI = !!process.env.CI;
+const pagesConfigPath = path.join(__dirname, 'spec-driven', 'pages.urls.json');
+const pagesConfig = JSON.parse(fs.readFileSync(pagesConfigPath, 'utf-8')) as {
+  baseURL?: string;
+};
 
 /**
- * E2E tests against a live staging/production URL.
- * Timeouts are higher than unit tests because network + CMS render add latency.
+ * Minimal boilerplate for live-site E2E.
+ * The base URL comes from spec-driven/pages.urls.json so the same folder can be reused.
  */
 export default defineConfig({
   testDir: './tests',
@@ -25,12 +31,11 @@ export default defineConfig({
     : [['html', { open: 'never' }], ['list']],
 
   use: {
-    baseURL: 'https://thewheel.wpenginepowered.com/',
+    baseURL: process.env.PLAYWRIGHT_BASE_URL ?? pagesConfig.baseURL,
     ...devices['Desktop Chrome'],
-    // Evidências em falha (ver README — o essencial é o relatório HTML):
-    screenshot: 'only-on-failure', // print da tela → aparece no npm run report
-    trace: 'off', // gravação passo a passo (.zip) — desligado por padrão
-    video: 'off', // vídeo da run — desligado (pesado, raramente necessário)
+    screenshot: 'only-on-failure',
+    trace: 'off',
+    video: 'off',
     actionTimeout: 15_000,
     navigationTimeout: 20_000,
   },

@@ -1,126 +1,76 @@
-import { test, expect } from '@playwright/test';
-import { gotoPath } from '../fixtures/page-helpers';
-import { siteContract as site } from '../fixtures/site-contract';
+import { expect, test } from '@playwright/test';
+import {
+  expectCtas,
+  expectFooter,
+  expectHero,
+  expectNavigation,
+  expectPageTitle,
+  expectSections,
+  openPage,
+  type PageSpec,
+} from '../helpers/page-spec';
+
+const homePage: PageSpec = {
+  name: 'Homepage',
+  path: '/',
+  title: /The Wheel: Supporting & Representing Charities/,
+  hero: /Ireland.s national association of charities/i,
+  navigation: [
+    'Become a Member',
+    'Get Support',
+    'Our Work',
+    'About Us',
+    'Member Hub',
+    'News and Updates',
+  ],
+  sections: ['How we help', /What we.re working on/i, 'Why join us at The Wheel?'],
+  ctas: [
+    { name: 'Join us today', href: /\/join-us\/?$/ },
+    { name: 'Already a member?', href: /\/login\/?$/ },
+    { name: 'View all news and updates', href: /\/news-and-updates\/?$/ },
+  ],
+  footer: ['Our funders', 'Newsletter sign up', 'Helpful links', 'Privacy policy'],
+  dismissButtons: ['Dismiss notification'],
+};
 
 test.describe('Homepage @stable', () => {
   test.beforeEach(async ({ page }) => {
-    await gotoPath(page, '/');
+    await openPage(page, homePage);
   });
 
-  test('has brand in document title', async ({ page }) => {
-    await expect(page).toHaveTitle(site.brandTitle);
+  test('has the expected document title', async ({ page }) => {
+    await expectPageTitle(page, homePage.title!);
   });
 
-  test('shows hero heading and tagline', async ({ page }) => {
-    await expect(page.getByRole('heading', { level: 1, name: site.hero.h1 })).toBeVisible();
-    await expect(page.getByText(site.hero.tagline)).toBeVisible();
+  test('shows the main heading', async ({ page }) => {
+    await expectHero(page, homePage.hero!);
   });
 
-  test('shows hero CTAs with expected paths', async ({ page }) => {
-    const { joinToday, alreadyMember } = site.ctas;
-    await expect(page.getByRole('link', { name: joinToday.name })).toHaveAttribute(
-      'href',
-      joinToday.href,
-    );
-    await expect(page.getByRole('link', { name: alreadyMember.name })).toHaveAttribute(
-      'href',
-      alreadyMember.href,
-    );
+  test('shows the main navigation', async ({ page }) => {
+    await expectNavigation(page, homePage.navigation!);
   });
 
-  test('shows primary navigation', async ({ page }) => {
-    const nav = page.getByRole('navigation');
-    for (const name of site.primaryNav) {
-      await expect(nav.getByRole('link', { name }).first()).toBeVisible();
-    }
+  test('shows the key page sections', async ({ page }) => {
+    await expectSections(page, homePage.sections!);
   });
 
-  test('shows utility header links', async ({ page }) => {
-    for (const name of site.utilityNav) {
-      await expect(page.getByRole('link', { name }).first()).toBeVisible();
-    }
+  test('shows the main CTAs', async ({ page }) => {
+    await expectCtas(page, homePage.ctas!);
   });
 
-  test('shows How we help section with service cards', async ({ page }) => {
-    await expect(
-      page.getByRole('heading', { level: 2, name: site.sections.howWeHelp }),
-    ).toBeVisible();
-
-    for (const { heading, cta } of site.serviceCards) {
-      await expect(page.getByRole('heading', { level: 3, name: heading })).toBeVisible();
-      await expect(page.getByRole('link', { name: cta }).first()).toBeVisible();
-    }
-  });
-
-  test('shows What we are working on section', async ({ page }) => {
-    await expect(
-      page.getByRole('heading', { level: 2, name: site.sections.workingOn }),
-    ).toBeVisible();
-    for (const name of site.workingOnLinks) {
-      await expect(page.getByRole('link', { name }).first()).toBeVisible();
-    }
-  });
-
-  test('shows membership section with become-member CTA', async ({ page }) => {
-    await expect(
-      page.getByRole('heading', { level: 2, name: site.sections.whyJoin }),
-    ).toBeVisible();
-    await expect(
-      page.locator('a[href*="membership/become-a-member"]'),
-    ).toHaveAttribute('href', site.ctas.becomeMember.hrefPattern);
-  });
-
-  test('shows footer landmarks', async ({ page }) => {
-    await expect(
-      page.getByRole('heading', { level: 2, name: site.sections.funders }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole('heading', { level: 2, name: site.sections.newsletter }).first(),
-    ).toBeVisible();
-    await expect(
-      page.getByRole('link', { name: site.footer.subscribeLink }).first(),
-    ).toBeVisible();
-    await expect(
-      page.getByRole('heading', { level: 2, name: site.sections.helpfulLinks }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole('link', { name: site.footer.privacyLink }).first(),
-    ).toBeVisible();
-    await expect(page.getByText(site.footer.copyright)).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Back to top' })).toBeVisible();
-  });
-
-  test('skip link targets main content', async ({ page }) => {
-    await expect(page.getByRole('link', { name: 'Skip to Main Content' })).toBeVisible();
+  test('shows the footer landmarks', async ({ page }) => {
+    await expectFooter(page, homePage.footer!);
   });
 });
 
 test.describe('Homepage @volatile', () => {
   test.beforeEach(async ({ page }) => {
-    await gotoPath(page, '/');
+    await openPage(page, homePage);
   });
 
-  test('news section has feed links (titles rotate)', async ({ page }) => {
-    await expect(
-      page.getByRole('heading', { level: 2, name: site.sections.news }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole('link', { name: site.ctas.viewAllNews.name }),
-    ).toHaveAttribute('href', site.ctas.viewAllNews.href);
-
-    // Article URLs include a slug segment; index-only links are excluded
+  test('shows at least one news article link', async ({ page }) => {
     const articleLinks = page.locator('a[href*="/news-and-updates/"][href*="-"]');
     await expect(articleLinks.first()).toBeVisible();
-    expect(await articleLinks.count()).toBeGreaterThanOrEqual(site.minNewsArticleLinks);
-  });
-
-  test('membership section lists at least three benefits', async ({ page }) => {
-    await expect(
-      page.getByRole('heading', { level: 2, name: site.sections.whyJoin }),
-    ).toBeVisible();
-    const benefits = page.getByRole('listitem').filter({
-      hasText: /deals|training|nonprofit|policies|jobs/i,
-    });
-    expect(await benefits.count()).toBeGreaterThanOrEqual(3);
+    expect(await articleLinks.count()).toBeGreaterThanOrEqual(1);
   });
 });

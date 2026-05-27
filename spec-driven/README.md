@@ -1,26 +1,21 @@
-# Spec-driven Playwright
+# Spec-driven
 
-Reuse these files to instruct an AI agent to set up Playwright and generate page tests.
+Pasta mínima para a IA trabalhar com **Playwright MCP** sem inventar estrutura extra.
 
-| File | Purpose |
-|------|---------|
-| [playwright-setup.prompt.md](./playwright-setup.prompt.md) | Full workflow: **ask URLs → setup → MCP explore → generate tests** |
-| [pages.urls.json](./pages.urls.json) | Active URL list for this project |
-| [pages.urls.example.json](./pages.urls.example.json) | Template to copy for new projects |
-| [pages.inventory.md](./pages.inventory.md) | Element map from browser/MCP exploration |
-| [stability-guidelines.md](./stability-guidelines.md) | What to assert vs what will change on the site |
-| `tests/fixtures/site-contract.ts` | Single file to edit when nav/IA/copy changes on purpose |
+## Ordem de trabalho
 
-## Quick prompts
+1. Perguntar quais URLs devem entrar
+2. Atualizar `pages.urls.json`
+3. Explorar cada URL com MCP
+4. Criar ou atualizar `tests/pages/*.spec.ts`
 
-**Setup only**
+## Arquivos
 
-> Follow `spec-driven/playwright-setup.prompt.md` Phase 1 and `project-scaffolding.md`.
+- [ai-init.prompt.md](/home/glauco/.local/share/me/mcp-aula/spec-driven/ai-init.prompt.md): prompt inicial recomendado
+- [pages.urls.json](/home/glauco/.local/share/me/mcp-aula/spec-driven/pages.urls.json): URLs reais do projeto
+- [pages.urls.example.json](/home/glauco/.local/share/me/mcp-aula/spec-driven/pages.urls.example.json): modelo para reaproveitar
+- [pages.inventory.md](/home/glauco/.local/share/me/mcp-aula/spec-driven/pages.inventory.md): anotações da exploração MCP
 
-**Add tests for new pages**
+## Regra principal
 
-> Read `spec-driven/playwright-setup.prompt.md`. Ask me which URLs to add, update `pages.urls.json`, explore with Playwright MCP, then generate `tests/pages/<id>.spec.ts`.
-
-**Full flow**
-
-> Run `/playwright:setup` using `spec-driven/playwright-setup.prompt.md` — ask which URLs first, then implement.
+A IA deve sempre perguntar as URLs antes de gerar testes.

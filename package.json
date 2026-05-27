@@ -2,9 +2,9 @@
   "name": "mcp-aula",
   "version": "1.0.0",
   "private": true,
-  "description": "Playwright E2E tests for The Wheel (spec-driven, CI-ready)",
+  "description": "Minimal Playwright MCP boilerplate for URL-driven E2E tests",
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   },
   "scripts": {
     "test": "playwright test",

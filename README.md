@@ -1,108 +1,85 @@
-# Playwright E2E — The Wheel
+# Playwright MCP Boilerplate
 
-Testes end-to-end com [@playwright/test](https://playwright.dev/) contra o site de staging, com suíte **estável** para CI e geração spec-driven documentada em [`spec-driven/`](./spec-driven/).
+Boilerplate minimalista para testes E2E com `@playwright/test` e exploração guiada por **Playwright MCP**.
 
-## Pré-requisitos
+Use este projeto como pasta-base para qualquer site/tema. A IA deve:
 
-- **Node.js 20+**
-- Linux/WSL: dependências do Chromium (`npx playwright install --with-deps chromium`) — pede `sudo` uma vez
+1. Perguntar quais URLs você quer cobrir
+2. Atualizar `spec-driven/pages.urls.json`
+3. Explorar cada página com MCP
+4. Criar `tests/pages/*.spec.ts` seguindo o exemplo existente
 
-## Instalação (primeira vez)
+## Estrutura
+
+```text
+tests/
+  helpers/
+    page-spec.ts           # helper genérico para suites simples
+  pages/
+    home.spec.ts           # exemplo real e template de referência
+spec-driven/
+  README.md                # fluxo curto para IA
+  ai-init.prompt.md        # prompt inicial recomendado
+  pages.urls.json          # baseURL + lista de páginas
+  pages.urls.example.json  # exemplo para novos projetos
+docs/
+  PLAYWRIGHT_MCP.md        # como ativar MCP no Cursor
+playwright.config.ts       # lê baseURL do pages.urls.json
+```
+
+## Instalação
 
 ```bash
 npm ci
-npx playwright install --with-deps chromium   # ou: npx playwright install chromium
+npx playwright install --with-deps chromium
+npx playwright install --with-deps chrome
 ```
 
-## Comandos
+- `chromium`: usado pelos testes locais e CI
+- `chrome`: usado pelo MCP do Playwright no Cursor
 
-| Comando | Uso |
-|---------|-----|
-| `npm test` | Todos os testes (`@stable` + `@volatile`) |
-| `npm run test:stable` | Só testes estáveis (recomendado no dia a dia) |
-| `npm run test:ci` | **O mesmo que o GitHub Actions executa** |
-| `npm run test:ui` | Interface visual para depurar |
-| `npm run test:headed` | Browser visível |
-| `npm run test:debug` | Passo a passo com inspector |
-| `npm run report` | Abre o relatório HTML da última execução |
+## Como usar
 
-## Ver resultados no navegador (local)
+1. Ajuste `spec-driven/pages.urls.json`
+2. Gere ou edite `tests/pages/*.spec.ts`
+3. Rode:
 
 ```bash
 npm test
-npm run report
 ```
 
-O relatório fica em `playwright-report/` (não commitar).
+Comandos úteis:
 
-## GitHub Actions (CI)
+- `npm run test:stable`
+- `npm run test:ui`
+- `npm run test:headed`
+- `npm run report`
 
-Workflow: [`.github/workflows/playwright.yml`](./.github/workflows/playwright.yml)
+## Exemplo de pedido para a IA
 
-| Quando roda | Push/PR em `main` ou `master`, ou manualmente em **Actions → Playwright E2E → Run workflow** |
-| O que executa | `npm run test:ci` (Chromium, suíte `@stable`, 2 retries) |
-| Se falhar | Anotações na PR + artifacts **playwright-report** e **test-results** |
+Use o prompt de [spec-driven/ai-init.prompt.md](/home/glauco/.local/share/me/mcp-aula/spec-driven/ai-init.prompt.md).
 
-### Ver relatório após o CI
+Versão curta:
 
-1. **Actions** → execução → **Artifacts**
-2. Baixe `playwright-report.zip` e extraia
-3. No projeto (ou na pasta extraída):
-
-```bash
-npx playwright show-report caminho/para/playwright-report
+```text
+Quero configurar testes com Playwright MCP neste projeto.
+Primeiro me pergunte quais URLs devo cobrir.
+Depois atualize spec-driven/pages.urls.json, explore as páginas com MCP
+e crie um arquivo tests/pages/<id>.spec.ts para cada URL, seguindo o
+exemplo existente e mantendo tudo simples.
 ```
 
-Se o relatório não mostrar imagens, baixe também o artifact **test-results** (screenshots ficam nessa pasta).
+## Como a IA deve criar specs
 
-## O que você realmente precisa (e o que é opcional)
+- Um arquivo por página em `tests/pages/`
+- Reusar `tests/helpers/page-spec.ts` para os checks estáveis
+- Adicionar `@volatile` só quando houver conteúdo rotativo
+- Preferir `getByRole`, `getByText` e asserts simples
+- Não criar abstrações extras sem necessidade
 
-| Recurso | Necessário? | O que é |
-|---------|-------------|---------|
-| **Relatório HTML** (`npm run report`) | **Sim** | Lista de testes, erros, qual passo falhou. É o principal. |
-| **Screenshot** em falha | Recomendado | Foto da página no momento do erro (já ligado). |
-| **Trace** (`.zip`) | Não (por padrão) | “DVR” da execução: cada clique, DOM, rede. Útil para bugs difíceis; mais pesado e confuso no início. |
-| **Vídeo** | Não | Gravação em vídeo da janela — desligado no projeto. |
+## Próximo passo
 
-**No CI:** basta o artifact **playwright-report**. O **test-results** só ajuda se quiser ver screenshots fora do HTML.
+Para adicionar páginas novas, me diga:
 
-Para ligar trace só quando precisar depurar, em `playwright.config.ts` mude `trace: 'off'` para `trace: 'on-first-retry'` e rode `npx playwright show-trace caminho/trace.zip`.
-
-## Estrutura do projeto
-
-```
-tests/
-  fixtures/
-    page-helpers.ts      # navegação, dismiss de banners
-    site-contract.ts     # textos/URLs estáveis — edite quando o site mudar de propósito
-  pages/
-    home.spec.ts         # homepage (@stable / @volatile)
-spec-driven/             # prompts e inventário para gerar novos testes com IA
-.github/workflows/       # CI
-playwright.config.ts
-```
-
-## Site mudou — o que atualizar?
-
-| Tipo de mudança | Arquivo |
-|-------------------|---------|
-| Menu, títulos de seção, CTAs | `tests/fixtures/site-contract.ts` |
-| Nova página | `spec-driven/pages.urls.json` + novo `tests/pages/*.spec.ts` |
-| Redesign grande | Re-explorar com browser MCP → `spec-driven/pages.inventory.md` |
-
-Detalhes: [`spec-driven/stability-guidelines.md`](./spec-driven/stability-guidelines.md).
-
-## Boas práticas usadas aqui
-
-- **Locators por acessibilidade** (`getByRole`, `getByText`)
-- **Contrato centralizado** (`site-contract.ts`) em vez de strings espalhadas
-- **Tags `@stable` / `@volatile`** — CI só bloqueia em estável
-- **Retries** no CI + **screenshot** só em falha (sem trace/vídeo por padrão)
-- **Reporter `github`** — resumo visível na aba Checks da PR
-- **Artifacts** — relatório HTML para auditoria pós-falha
-
-## Documentação spec-driven / IA
-
-- Setup completo: [`spec-driven/playwright-setup.prompt.md`](./spec-driven/playwright-setup.prompt.md)
-- Scaffolding inicial: [`project-scaffolding.md`](./project-scaffolding.md)
-# specdrive-playwright
+- `baseURL`
+- lista de paths, por exemplo `/`, `/contato/`, `/blog/`
