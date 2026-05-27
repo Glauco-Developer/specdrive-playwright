@@ -1,0 +1,29 @@
+{
+  "baseURL": "https://thewheel.wpenginepowered.com/",
+  "pages": [
+    {
+      "id": "home",
+      "name": "Homepage",
+      "path": "/",
+      "checks": ["title", "hero", "navigation", "sections", "ctas", "footer"],
+      "stable": {
+        "sections": ["How we help", "Why join us at The Wheel?", "Our funders"],
+        "nav": ["Become a Member", "Get Support", "Our Work", "About Us", "Member Hub", "News and Updates"]
+      },
+      "volatile": ["news-feed", "promo-banner", "membership-bullet-copy", "copyright-year"],
+      "expectedTitle": "/The Wheel: Supporting & Representing Charities/",
+      "heroHeading": "/Ireland's national association of charities/i",
+      "sections": [
+        "How we help",
+        "What we're working on",
+        "Why join us at The Wheel?",
+        "Our latest News and Updates"
+      ],
+      "ctas": [
+        { "role": "link", "name": "Join us today", "href": "/join-us/" },
+        { "role": "link", "name": "Become a member", "href": "/membership/become-a-member/" },
+        { "role": "link", "name": "View all news and updates", "href": "/news-and-updates/" }
+      ]
+    }
+  ]
+}

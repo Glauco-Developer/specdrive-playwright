@@ -1,0 +1,22 @@
+{
+  "name": "mcp-aula",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright E2E tests for The Wheel (spec-driven, CI-ready)",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:stable": "playwright test --grep @stable",
+    "test:ci": "playwright test --grep @stable",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report",
+    "report:open": "playwright show-report --host 127.0.0.1 --port 9323"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0"
+  }
+}

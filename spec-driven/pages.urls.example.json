@@ -1,0 +1,23 @@
+{
+  "baseURL": "https://your-site.example/",
+  "pages": [
+    {
+      "id": "home",
+      "name": "Homepage",
+      "path": "/",
+      "checks": ["title", "hero", "navigation", "sections", "ctas", "footer"],
+      "expectedTitle": "/Your Site Name/",
+      "heroHeading": "/welcome/i",
+      "sections": ["Section one", "Section two"],
+      "ctas": [
+        { "role": "link", "name": "Sign up", "href": "/signup/" }
+      ]
+    },
+    {
+      "id": "contact",
+      "name": "Contact",
+      "path": "/contact/",
+      "checks": ["title", "hero", "navigation", "footer"]
+    }
+  ]
+}
